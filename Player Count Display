@@ -1,0 +1,7 @@
+// Example: Display player count
+client.on('messageCreate', message => {
+    if (message.content === '!playerCount') {
+        const playerCount = fetchPlayerCountFromServer(); // Replace with your method to fetch player count
+        message.channel.send(`Current players: ${playerCount}`);
+    }
+});
