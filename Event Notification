@@ -1,0 +1,11 @@
+// Example: Notify when a helicopter spawns
+client.on('messageCreate', message => {
+    if (message.content === '!helicopterSpawn') {
+        const channel = client.channels.cache.get('channel-id'); // Replace with your channel ID
+        if (channel) {
+            channel.send('Helicopter has spawned!');
+        } else {
+            console.error('Channel not found.');
+        }
+    }
+});
