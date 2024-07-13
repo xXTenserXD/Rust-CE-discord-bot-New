@@ -1,0 +1,25 @@
+const Rcon = require('rust-rcon');
+const rcon = new Rcon('server-ip', 'rcon-password');
+
+// Connect to RCON
+rcon.connect().then(() => {
+    console.log('Connected to RCON.');
+}).catch(err => {
+    console.error('Failed to connect to RCON:', err);
+});
+
+// Example: Listening for player connect events
+rcon.on('player.connect', data => {
+    console.log(`Player connected: ${data.name}`);
+    sendEventNotification(`Player connected: ${data.name}`);
+});
+
+// Function to send event notification to Discord channel
+function sendEventNotification(message) {
+    const channel = client.channels.cache.get('channel-id'); // Replace with your channel ID
+    if (channel) {
+        channel.send(`**Rust Event Notification:** ${message}`);
+    } else {
+        console.error('Channel not found.');
+    }
+}
