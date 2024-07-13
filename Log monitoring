@@ -1,0 +1,45 @@
+const fs = require('fs');
+
+// Path to the Rust server log file (replace with your log file path)
+const logFilePath = 'path/to/your/rust/server/logfile.txt';
+
+// Function to monitor log file changes
+function monitorLogFile() {
+    fs.watchFile(logFilePath, (curr, prev) => {
+        console.log(`Log file changed.`);
+        readLogFile();
+    });
+}
+
+// Function to read and parse log file
+function readLogFile() {
+    fs.readFile(logFilePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading log file:', err);
+            return;
+        }
+        parseLogEvents(data);
+    });
+}
+
+// Function to parse log events and send notifications
+function parseLogEvents(logData) {
+    // Example: Detect player connect events
+    if (logData.includes('connected')) {
+        const playerName = extractPlayerName(logData); // Implement logic to extract player name
+        sendEventNotification(`Player connected: ${playerName}`);
+    }
+}
+
+// Function to send event notification to Discord channel
+function sendEventNotification(message) {
+    const channel = client.channels.cache.get('channel-id'); // Replace with your channel ID
+    if (channel) {
+        channel.send(`**Rust Event Notification:** ${message}`);
+    } else {
+        console.error('Channel not found.');
+    }
+}
+
+// Start monitoring the log file
+monitorLogFile();
