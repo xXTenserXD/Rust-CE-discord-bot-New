@@ -1,0 +1,13 @@
+// Example: Assign roles to users
+client.on('messageCreate', message => {
+    if (message.content === '!assignPremiumRole') {
+        const user = message.author;
+        const role = message.guild.roles.cache.find(role => role.name === 'Premium'); // Replace with your premium role name
+        if (role) {
+            message.member.roles.add(role);
+            message.channel.send(`Role '${role.name}' assigned to ${user}`);
+        } else {
+            message.channel.send('Premium role not found.');
+        }
+    }
+});
